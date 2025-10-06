@@ -52,7 +52,7 @@ const defaultValue = {
       },
     ],
     invitationImage: {
-      url: 'https://res.cloudinary.com/dpinnqt92/image/upload/v1759744646/IQI/projects/j1dc3ls6uhltbmcwqoo8.jpg',
+      url: '/invitations/invitation.jpg',
       publicId: 'IQI/projects/j1dc3ls6uhltbmcwqoo8',
     },
   },
@@ -65,13 +65,6 @@ export default function Invitation() {
   const [selectedFileName, setSelectedFileName] = useState<string>('');
   const [imagePreview, setImagePreview] = useState<string>('');
   const previewRef = useRef<HTMLDivElement>(null);
-
-  // const params = useParams();
-  // const { data: other = {} } = useGetPublicProjectTabByIdQuery({
-  //   id: params.id as string,
-  //   tab: 'other',
-  // });
-
   const other = defaultValue;
 
   const { invitation = {} } = other as any;
@@ -88,7 +81,7 @@ export default function Invitation() {
     if (fields.length > 0 && Object.keys(formData).length === 0) {
       const init: Record<string, any> = {};
       fields.forEach((f: any) => {
-        init[f.id] = ''; // local state thôi
+        init[f.id] = '';
       });
       setFormData(init);
     }
@@ -255,7 +248,7 @@ export default function Invitation() {
                           )}
                           <div className="text-center">
                             <p className="text-sm text-white/80 font-medium">
-                              {selectedFileName || 'Chọn ảnh nền'}
+                              {selectedFileName || field.label}
                             </p>
                             <p className="text-xs text-white/60 mt-1">
                               {selectedFileName

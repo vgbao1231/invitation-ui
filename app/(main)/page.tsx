@@ -307,7 +307,7 @@ export default function Invitation() {
               alt="Invitation background"
               width={1200} // đặt width lớn để Next xử lý responsive
               height={800} // đặt height tạm, sẽ scale theo ảnh thật
-              className="w-auto h-[80vh]"
+              className="w-auto object-contain"
             />
           )}
 

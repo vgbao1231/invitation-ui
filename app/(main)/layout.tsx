@@ -1,7 +1,6 @@
 import '../globals.css';
 import React from 'react';
 import 'leaflet/dist/leaflet.css';
-import GoogleTranslateScript from '@/components/common/google-translate-script';
 import { ThemeProvider } from '@/components/common/theme-provider';
 import '../styles/fonts.css';
 
@@ -19,7 +18,6 @@ export default function RootLayout({
       storageKey="iqi-theme"
     >
       {children}
-      <GoogleTranslateScript />
     </ThemeProvider>
   );
 }

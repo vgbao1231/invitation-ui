@@ -1,22 +1,12 @@
 'use client';
 
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import html2canvas from 'html2canvas-pro';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import Image from 'next/image';
 import { Plus } from 'lucide-react';
 import { FileUpload } from '@/components/ui/file-upload';
-
-// Add global type for html2canvas
-declare global {
-  interface Window {
-    html2canvas?: (
-      element: HTMLElement,
-      options?: any
-    ) => Promise<HTMLCanvasElement>;
-  }
-}
+import * as htmlToImage from 'html-to-image';
 
 const defaultValue = {
   policy: {
@@ -28,7 +18,7 @@ const defaultValue = {
     fields: [
       {
         id: 'name',
-        size: 30,
+        size: 28,
         type: 'text',
         label: 'Tên trên thiệp',
         position: {
@@ -70,7 +60,9 @@ export default function Invitation() {
   const invitationImage = invitation?.invitationImage ?? null;
 
   // State lưu dữ liệu form
-  const [formData, setFormData] = useState<Record<string, any>>({});
+  const [formData, setFormData] = useState<Record<string, any>>({
+    // name: 'Nguyễn Thành Trung',
+  });
 
   // Memo fields để tránh re-calc nhiều lần
   const fields = useMemo(() => invitation?.fields ?? [], [invitation]);
@@ -88,18 +80,15 @@ export default function Invitation() {
 
   // Export ra ảnh
   const handleExport = async () => {
-    if (!previewRef.current || !html2canvas) return;
+    if (!previewRef.current) return;
 
     setIsLoading(true);
     try {
       await document.fonts.ready;
-      const canvas = await html2canvas(previewRef.current, {
-        useCORS: true,
-        allowTaint: true,
-        backgroundColor: null,
-        scale: 2,
-      });
-      setExportedImage(canvas.toDataURL('image/png'));
+      const dataUrl = await htmlToImage.toPng(previewRef.current);
+
+      // Nếu thành công, cập nhật state
+      setExportedImage(dataUrl);
     } catch (err) {
       console.error('Error exporting canvas:', err);
     } finally {
@@ -121,19 +110,16 @@ export default function Invitation() {
   if (!invitation || fields.length === 0) return <></>;
 
   // Nếu đã export thì hiển thị ảnh kết quả
-  if (exportedImage) {
+  if (exportedImage && isLoading === false) {
     return (
       <main className="min-h-screen relative overflow-hidden">
-        <div
-          ref={previewRef}
-          className="relative w-fit mx-auto overflow-hidden center-both flex-col mt-20"
-        >
+        <div className="relative overflow-hidden center-both flex-col mt-20">
           <Image
             src={exportedImage}
-            alt="Invitation"
-            width={1200}
-            height={800}
-            className="w-full h-auto object-contain max-h-[70vh]"
+            alt="Invitation background"
+            width={800} // đặt width lớn để Next xử lý responsive
+            height={800} // đặt height tạm, sẽ scale theo ảnh thật
+            className="object-contain max-h-[80vh]"
           />
         </div>
         <div className="center-both gap-8 mt-8">
@@ -261,7 +247,8 @@ export default function Invitation() {
       </div>
 
       {/* Preview ẩn để sau khi submit thì tạo canva thiệp mời */}
-      <div className="absolute inset-0 -z-20 center-both opacity-0">
+      <div className="absolute inset-0 center-both -z-20 opacity-0">
+        {/* <div className="absolute inset-0 center-both z-20 opacity-1"> */}
         <div
           ref={previewRef}
           className="relative overflow-hidden min-w-[800px]"
@@ -273,6 +260,7 @@ export default function Invitation() {
               width={800} // đặt width lớn để Next xử lý responsive
               height={800} // đặt height tạm, sẽ scale theo ảnh thật
               className="object-contain max-h-[80vh]"
+              crossOrigin="anonymous"
             />
           )}
 

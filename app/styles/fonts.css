@@ -5,7 +5,7 @@
 
   src:
     url('/fonts/DFVNMenata-Regular.woff2') format('woff2'),
-    url('/fonts/DFVN-Menata-Regular.woff') format('woff');
+    url('/fonts/DFVNMenata-Regular.woff') format('woff');
 
   /* 3. Khai báo thuộc tính font */
   font-weight: normal;

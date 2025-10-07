@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import html2canvas from 'html2canvas-pro';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -70,24 +70,21 @@ export default function Invitation() {
   const invitationImage = invitation?.invitationImage ?? null;
 
   // State lưu dữ liệu form
-  const [formData, setFormData] = useState<Record<string, any>>({
-    name: 'Võ Gia Bảo',
-    image: '/logo-detail-dark.png',
-  });
+  const [formData, setFormData] = useState<Record<string, any>>({});
 
   // Memo fields để tránh re-calc nhiều lần
   const fields = useMemo(() => invitation?.fields ?? [], [invitation]);
 
   // Init state khi lần đầu có fields
-  // useEffect(() => {
-  //   if (fields.length > 0 && Object.keys(formData).length === 0) {
-  //     const init: Record<string, any> = {};
-  //     fields.forEach((f: any) => {
-  //       init[f.id] = '';
-  //     });
-  //     setFormData(init);
-  //   }
-  // }, [fields, formData]);
+  useEffect(() => {
+    if (fields.length > 0 && Object.keys(formData).length === 0) {
+      const init: Record<string, any> = {};
+      fields.forEach((f: any) => {
+        init[f.id] = '';
+      });
+      setFormData(init);
+    }
+  }, [fields, formData]);
 
   // Export ra ảnh
   const handleExport = async () => {

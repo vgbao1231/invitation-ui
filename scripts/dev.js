@@ -17,7 +17,7 @@ function getAllLocalIPs() {
     return results;
 }
 
-const port = 3000;
+const port = 3001;
 const local = `http://localhost:${port}`;
 const allIPs = getAllLocalIPs();
 

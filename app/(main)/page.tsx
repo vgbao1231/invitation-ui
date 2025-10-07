@@ -63,8 +63,6 @@ const defaultValue = {
 export default function Invitation() {
   const [exportedImage, setExportedImage] = useState<null | string>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedFileName, setSelectedFileName] = useState<string>('');
-  const [imagePreview, setImagePreview] = useState<string>('');
   const previewRef = useRef<HTMLDivElement>(null);
   const other = defaultValue;
 
@@ -271,7 +269,7 @@ export default function Invitation() {
               alt="Invitation background"
               width={1200} // đặt width lớn để Next xử lý responsive
               height={800} // đặt height tạm, sẽ scale theo ảnh thật
-              className="w-auto object-contain"
+              className="w-auto object-contain max-h-[80vh]"
             />
           )}
 

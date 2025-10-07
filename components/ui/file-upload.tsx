@@ -76,7 +76,7 @@ export const FileUpload = memo(function FileUpload({
                   sizes="100vw"
                   quality={40}
                   priority
-                  className="max-h-32 w-auto h-auto max-w-full rounded-md object-contain"
+                  className="max-h-24 w-auto h-auto max-w-full rounded-md object-contain"
                 />
                 {clickToDelete && (
                   <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-all center-both rounded-md">

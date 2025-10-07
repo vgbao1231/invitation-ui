@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import html2canvas from 'html2canvas-pro';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -28,7 +28,7 @@ const defaultValue = {
     fields: [
       {
         id: 'name',
-        size: 1.8,
+        size: 30,
         type: 'text',
         label: 'Tên trên thiệp',
         position: {
@@ -70,21 +70,24 @@ export default function Invitation() {
   const invitationImage = invitation?.invitationImage ?? null;
 
   // State lưu dữ liệu form
-  const [formData, setFormData] = useState<Record<string, any>>({});
+  const [formData, setFormData] = useState<Record<string, any>>({
+    name: 'Võ Gia Bảo',
+    image: '/logo-detail-dark.png',
+  });
 
   // Memo fields để tránh re-calc nhiều lần
   const fields = useMemo(() => invitation?.fields ?? [], [invitation]);
 
   // Init state khi lần đầu có fields
-  useEffect(() => {
-    if (fields.length > 0 && Object.keys(formData).length === 0) {
-      const init: Record<string, any> = {};
-      fields.forEach((f: any) => {
-        init[f.id] = '';
-      });
-      setFormData(init);
-    }
-  }, [fields, formData]);
+  // useEffect(() => {
+  //   if (fields.length > 0 && Object.keys(formData).length === 0) {
+  //     const init: Record<string, any> = {};
+  //     fields.forEach((f: any) => {
+  //       init[f.id] = '';
+  //     });
+  //     setFormData(init);
+  //   }
+  // }, [fields, formData]);
 
   // Export ra ảnh
   const handleExport = async () => {
@@ -262,14 +265,17 @@ export default function Invitation() {
 
       {/* Preview ẩn để sau khi submit thì tạo canva thiệp mời */}
       <div className="absolute inset-0 -z-20 center-both opacity-0">
-        <div ref={previewRef} className="relative w-fit overflow-hidden">
+        <div
+          ref={previewRef}
+          className="relative overflow-hidden min-w-[800px]"
+        >
           {invitationImage && (
             <Image
               src={invitationImage?.url}
               alt="Invitation background"
-              width={1200} // đặt width lớn để Next xử lý responsive
+              width={800} // đặt width lớn để Next xử lý responsive
               height={800} // đặt height tạm, sẽ scale theo ảnh thật
-              className="w-auto object-contain max-h-[80vh]"
+              className="object-contain max-h-[80vh]"
             />
           )}
 
@@ -286,7 +292,7 @@ export default function Invitation() {
               ...(field.id === 'name' && {
                 fontFamily: "'DFVN Menata', sans-serif",
               }),
-              fontSize: `${field.size}rem`,
+              fontSize: `${field.size}px`,
               color: '#2c2c2c',
               textShadow: '1px 1px 3px rgba(255,255,255,0.7)',
               pointerEvents: 'none',

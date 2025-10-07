@@ -28,7 +28,7 @@ const defaultValue = {
     fields: [
       {
         id: 'name',
-        size: 30,
+        size: 1.8,
         type: 'text',
         label: 'Tên trên thiệp',
         position: {
@@ -286,7 +286,7 @@ export default function Invitation() {
               ...(field.id === 'name' && {
                 fontFamily: "'DFVN Menata', sans-serif",
               }),
-              fontSize: `${field.size}px`,
+              fontSize: `${field.size}rem`,
               color: '#2c2c2c',
               textShadow: '1px 1px 3px rgba(255,255,255,0.7)',
               pointerEvents: 'none',

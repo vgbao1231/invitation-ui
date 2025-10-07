@@ -61,7 +61,7 @@ export default function Invitation() {
 
   // State lưu dữ liệu form
   const [formData, setFormData] = useState<Record<string, any>>({
-    name: 'Nguyễn Thành Trung',
+    // name: 'Nguyễn Thành Trung',
   });
 
   // Memo fields để tránh re-calc nhiều lần

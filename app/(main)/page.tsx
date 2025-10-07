@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import Image from 'next/image';
 import { Plus } from 'lucide-react';
 import { FileUpload } from '@/components/ui/file-upload';
-import * as htmlToImage from 'html-to-image';
+import { domToPng } from 'modern-screenshot';
 
 const defaultValue = {
   policy: {
@@ -61,7 +61,7 @@ export default function Invitation() {
 
   // State lưu dữ liệu form
   const [formData, setFormData] = useState<Record<string, any>>({
-    // name: 'Nguyễn Thành Trung',
+    name: 'Nguyễn Thành Trung',
   });
 
   // Memo fields để tránh re-calc nhiều lần
@@ -85,9 +85,11 @@ export default function Invitation() {
     setIsLoading(true);
     try {
       await document.fonts.ready;
-      const dataUrl = await htmlToImage.toPng(previewRef.current);
-
-      // Nếu thành công, cập nhật state
+      const dataUrl = await domToPng(previewRef.current, {
+        scale: 3, // ✨ tăng chất lượng ảnh
+        quality: 1, // giá trị 0–1 (chất lượng cao nhất)
+        backgroundColor: '#fff',
+      });
       setExportedImage(dataUrl);
     } catch (err) {
       console.error('Error exporting canvas:', err);
